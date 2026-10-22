@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EIC — Events &amp; faith calendar</title>
+<meta name="description" content="EIC celebrations and upcoming Hindu, Muslim, Sikh and Christian dates for Ebbsfleet Valley, Kent.">
+<meta property="og:title" content="EIC — Events &amp; faith calendar">
+<meta property="og:description" content="EIC celebrations and upcoming Hindu, Muslim, Sikh and Christian dates for Ebbsfleet Valley, Kent.">
+<meta property="og:image" content="assets/eic-logo.jpg">
+<link rel="icon" href="assets/eic-logo.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&amp;family=Hind:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0;background:#FFFCF6}
+a{color:#06622A}a:hover{color:#A3500B}
+</style>
+<style>[v-cloak]{display:none} img{max-width:100%}</style>
+<script src="assets/petite-vue.iife.js"></script>
+<script src="assets/eic-runtime.js"></script>
+</head>
+<body>
+<div id="app" v-cloak>
+<div style="font-family: 'Hind', system-ui, sans-serif; color: #1D1B18; background: #FFFCF6; font-size: 17px; line-height: 1.55">
+
+<header style="background: #FFFCF6; border-bottom: 1px solid #E7DFD0">
+<nav aria-label="Main" style="max-width: 1240px; margin: 0 auto; padding: 14px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
+<a href="index.html" style="display: flex; align-items: center; gap: 12px; text-decoration: none; color: #1D1B18">
+<img src="assets/eic-logo.jpg" alt="Ebbsfleet Indian Community logo" style="width: 180px; height: 180px; border-radius: 50%; object-fit: cover">
+<span style="display: flex; flex-direction: column; line-height: 1.15"><span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 19px">Ebbsfleet Indian Community</span><span style="font-size: 14px; color: #5E584F">Ebbsfleet Valley · Kent</span></span>
+</a>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 4px 6px; font-weight: 500">
+<a href="index.html" style="padding: 10px 12px; text-decoration: none; color: #1D1B18">Home</a>
+<a href="events.html" style="padding: 10px 12px; text-decoration: none; color: #06622A; border-bottom: 2px solid #EE5905">Events</a>
+<a href="directory.html" style="padding: 10px 12px; text-decoration: none; color: #1D1B18">Business directory</a>
+<a href="gallery.html" style="padding: 10px 12px; text-decoration: none; color: #1D1B18">Gallery</a>
+<a href="ask-padosi.html" style="padding: 10px 12px; text-decoration: none; color: #1D1B18">Ask Padosi</a>
+<a href="sponsor.html" style="padding: 10px 12px; text-decoration: none; color: #1D1B18">Sponsor</a>
+<a href="directory.html#list" style="margin-left: 8px; padding: 11px 18px; border-radius: 999px; background: #06622A; color: #FFFFFF; text-decoration: none; font-weight: 600">List your business</a>
+</div>
+</nav>
+</header>
+
+<section style="max-width: 1240px; margin: 0 auto; padding: 56px 24px 8px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 20px">
+<div style="flex: 1 1 520px; min-width: 0">
+<p style="margin: 0; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; font-size: 14px; color: #A3500B">Events &amp; faith calendar</p>
+<h1 style="margin: 6px 0 10px; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(38px, 5vw, 60px); line-height: 1.05">What's coming up</h1>
+<p style="margin: 0; max-width: 680px; color: #5E584F">Each festival shows two dates: when it falls by the panchang or official calendar, and when EIC is celebrating it together in Ebbsfleet. Islamic dates are expected dates and may move by a day with the moon sighting.</p>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 10px">
+<a href="#" style="padding: 12px 18px; border-radius: 999px; border: 1px solid #CFC4B0; background: #FFFFFF; text-decoration: none; color: #1D1B18; font-weight: 600">Subscribe in Google / Apple Calendar</a>
+<a href="#" style="padding: 12px 18px; border-radius: 999px; background: #06622A; color: #FFFFFF; text-decoration: none; font-weight: 600">Suggest an event</a>
+</div>
+</section>
+
+<section style="max-width: 1240px; margin: 0 auto; padding: 24px 24px 0; display: flex; flex-direction: column; gap: 14px">
+<div role="group" aria-label="Filter by" style="display: flex; flex-wrap: wrap; gap: 10px">
+<span style="display: contents" v-for="(f, $index) in filters">
+<button type="button" @click="f.pick" :aria-pressed="f.pressed" :style="`min-height: 44px; padding: 0 18px; border-radius: 999px; border: 2px solid ${f.border}; background: ${f.bg}; color: ${f.ink}; font: inherit; font-weight: 600; cursor: pointer`">{{f.label}}</button>
+</span>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px 24px; font-size: 15px; color: #5E584F">
+<span style="display: flex; align-items: center; gap: 8px"><span style="padding: 1px 8px; border-radius: 6px; background: #06622A; color: #FFFFFF; font-weight: 600; font-size: 13px">EIC</span>EIC celebration in Ebbsfleet</span>
+<span style="display: flex; align-items: center; gap: 8px"><span style="padding: 1px 8px; border-radius: 6px; background: #FCE7C8; color: #8A4100; font-weight: 600; font-size: 13px">Festival</span>Panchang / official date (tinted by tradition)</span>
+</div>
+</section>
+
+<section style="max-width: 1240px; margin: 0 auto; padding: 20px 24px 0; display: flex; flex-wrap: wrap; gap: 28px; align-items: flex-start">
+<div style="flex: 999 1 640px; min-width: 0; background: #FFFFFF; border: 1px solid #E7DFD0; border-radius: 20px; padding: 20px">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 4px 4px 16px">
+<button type="button" @click="prev" aria-label="Previous month" style="width: 44px; height: 44px; border-radius: 50%; border: 1px solid #CFC4B0; background: #FFFCF6; cursor: pointer; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1D1B18" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"></path></svg></button>
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 30px">{{monthLabel}}</h2>
+<button type="button" @click="next" aria-label="Next month" style="width: 44px; height: 44px; border-radius: 50%; border: 1px solid #CFC4B0; background: #FFFCF6; cursor: pointer; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1D1B18" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg></button>
+</div>
+<div style="overflow-x: auto">
+<div style="min-width: 620px">
+<div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; padding-bottom: 6px">
+<span style="display: contents" v-for="(w, $index) in weekdays">
+<div style="text-align: center; font-size: 14px; font-weight: 600; color: #5E584F; padding: 4px 0">{{w}}</div>
+</span>
+</div>
+<div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px">
+<span style="display: contents" v-for="(c, $index) in cells">
+<div :style="`min-height: 104px; border-radius: 12px; padding: 8px; background: ${c.bg}; border: 1px solid ${c.border}; display: flex; flex-direction: column; gap: 4px`">
+<span style="font-weight: 600; font-size: 15px; color: #1D1B18">{{c.num}}</span>
+<span style="display: contents" v-for="(e, $index) in c.events">
+<span :style="`display: block; padding: 2px 6px; border-radius: 6px; background: ${e.bg}; color: ${e.ink}; font-size: 13px; font-weight: 600; line-height: 1.3`">{{e.short}}</span>
+</span>
+</div>
+</span>
+</div>
+</div>
+</div>
+</div>
+
+<aside style="flex: 1 1 340px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 26px">In {{monthShort}}</h2>
+<span style="display: contents" v-if="noneThisMonth">
+<p style="margin: 0; padding: 20px; border-radius: 16px; background: #F5EFE3; color: #5E584F">Nothing in this filter for {{monthShort}}. Try another month or “All”.</p>
+</span>
+<span style="display: contents" v-for="(e, $index) in monthEvents">
+<article style="background: #FFFFFF; border: 1px solid #E7DFD0; border-radius: 16px; padding: 16px 18px; display: flex; gap: 14px">
+<div :style="`width: 56px; flex-shrink: 0; text-align: center; line-height: 1.1; padding: 6px 0; border-radius: 10px; background: ${e.bg}; color: ${e.ink}`">
+<div style="font-size: 12px; font-weight: 600; text-transform: uppercase">{{e.dow}}</div>
+<div style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 24px">{{e.day}}</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 2px; min-width: 0">
+<span :style="`font-size: 13px; font-weight: 600; color: ${e.tagInk}`">{{e.tag}}</span>
+<h3 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 20px; line-height: 1.2">{{e.name}}</h3>
+<p style="margin: 0; color: #5E584F; font-size: 15px">{{e.note}}</p>
+<span style="display: contents" v-if="e.isEic">
+<a href="#" style="margin-top: 4px; font-weight: 600; font-size: 15px">RSVP &amp; volunteer</a>
+</span>
+</div>
+</article>
+</span>
+</aside>
+</section>
+
+<section aria-labelledby="all" style="max-width: 1240px; margin: 0 auto; padding: 56px 24px 80px">
+<h2 id="all" style="margin: 0 0 6px; font-family: 'Bricolage Grotesque', sans-serif; font-size: 34px">All upcoming dates</h2>
+<p style="margin: 0 0 16px; color: #5E584F">Festival date as per the panchang or official calendar, alongside the date EIC celebrates it in Ebbsfleet.</p>
+<div style="overflow-x: auto; border: 1px solid #E7DFD0; border-radius: 16px; background: #FFFFFF">
+<table style="width: 100%; min-width: 820px; border-collapse: collapse; text-align: left">
+<thead>
+<tr style="background: #F5EFE3">
+<th scope="col" style="padding: 12px 18px; font-size: 15px">Occasion</th>
+<th scope="col" style="padding: 12px 18px; font-size: 15px">Tradition</th>
+<th scope="col" style="padding: 12px 18px; font-size: 15px">Festival date<br><span style="font-weight: 400; color: #5E584F; font-size: 13px">Panchang / official</span></th>
+<th scope="col" style="padding: 12px 18px; font-size: 15px">EIC celebration<br><span style="font-weight: 400; color: #5E584F; font-size: 13px">In Ebbsfleet</span></th>
+<th scope="col" style="padding: 12px 18px; font-size: 15px">Note</th>
+</tr>
+</thead>
+<tbody>
+<template v-for="(r, $index) in rows">
+<tr :style="`border-top: 1px solid #EFE7D8; background: ${r.rowBg}`">
+<td style="padding: 12px 18px; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700">{{r.name}}</td>
+<td style="padding: 12px 18px"><span :style="`padding: 2px 10px; border-radius: 999px; background: ${r.bg}; color: ${r.ink}; font-weight: 600; font-size: 14px; white-space: nowrap`">{{r.tag}}</span></td>
+<td style="padding: 12px 18px; font-weight: 600; white-space: nowrap">{{r.festFull}}</td>
+<td style="padding: 12px 18px; white-space: nowrap">
+<span style="display: contents" v-if="r.hasEicDate"><span style="padding: 3px 10px; border-radius: 8px; background: #06622A; color: #FFFFFF; font-weight: 600; font-size: 15px">{{r.eicFull}}</span></span>
+<span style="display: contents" v-if="r.eicTbc"><span style="padding: 2px 10px; border-radius: 8px; border: 1px dashed #06622A; color: #06622A; font-weight: 600; font-size: 15px">EIC date TBC</span></span>
+<span style="display: contents" v-if="r.noEic"><span style="color: #5E584F">—</span></span>
+</td>
+<td style="padding: 12px 18px; color: #5E584F; font-size: 15px">{{r.note}}</td>
+</tr>
+</template>
+</tbody>
+</table>
+</div>
+</section>
+
+</div>
+</div>
+<script>
+var STYLE = {
+  eic: { bg: '#06622A', ink: '#FFFFFF', tagInk: '#06622A', label: 'EIC celebration' },
+  hindu: { bg: '#FCE7C8', ink: '#8A4100', tagInk: '#8A4100', label: 'Hindu' },
+  muslim: { bg: '#D7EEDF', ink: '#13573A', tagInk: '#13573A', label: 'Muslim' },
+  sikh: { bg: '#DCE6F7', ink: '#1F3F7A', tagInk: '#1F3F7A', label: 'Sikh' },
+  christian: { bg: '#EADFF3', ink: '#5B2C83', tagInk: '#5B2C83', label: 'Christian' },
+  national: { bg: '#FDE3D2', ink: '#8F3A12', tagInk: '#8F3A12', label: 'Indian national day' }
+};
+// d = festival date (panchang / official). eic = EIC celebration date, 'tbc', or absent.
+var EVENTS = [
+  { d: '2026-11-08', k: 'hindu', name: 'Diwali', short: 'Diwali', note: 'Festival of lights', eic: '2026-11-07', eicName: 'Ebbsfleet Ki Deepawali 2026', eicNote: '[Time & venue TBC] · Food stalls, rangoli, cultural evening' },
+  { d: '2026-11-08', k: 'sikh', name: 'Bandi Chhor Divas', short: 'Bandi Chhor', note: 'Observed alongside Diwali' },
+  { d: '2026-11-15', k: 'hindu', name: 'Chhath Puja', short: 'Chhath Puja', note: 'Sunset prayers to Surya' },
+  { d: '2026-11-24', k: 'sikh', name: 'Guru Nanak Gurpurab', short: 'Guru Nanak Gurpurab', note: 'Birth of Guru Nanak Dev Ji' },
+  { d: '2026-11-29', k: 'christian', name: 'Advent Sunday', short: 'Advent Sunday', note: 'Start of Advent' },
+  { d: '2026-12-25', k: 'christian', name: 'Christmas Day', short: 'Christmas', note: 'Bank holiday' },
+  { d: '2027-01-15', k: 'hindu', name: 'Makar Sankranti', short: 'Makar Sankranti', note: 'Harvest festival' },
+  { d: '2027-02-08', k: 'muslim', name: 'Ramadan begins (expected)', short: 'Ramadan begins', note: 'Subject to moon sighting' },
+  { d: '2027-03-06', k: 'hindu', name: 'Maha Shivratri', short: 'Maha Shivratri', note: 'Night of Shiva' },
+  { d: '2027-03-10', k: 'muslim', name: 'Eid al-Fitr (expected)', short: 'Eid al-Fitr', note: 'May fall on 9 or 10 March' },
+  { d: '2027-03-22', k: 'hindu', name: 'Holi', short: 'Holi', note: 'Festival of colours · colours, music, chaat', eic: 'tbc', eicName: 'EIC Holi' },
+  { d: '2027-03-26', k: 'christian', name: 'Good Friday', short: 'Good Friday', note: 'Bank holiday' },
+  { d: '2027-03-28', k: 'christian', name: 'Easter Sunday', short: 'Easter Sunday', note: '' },
+  { d: '2027-04-14', k: 'sikh', name: 'Vaisakhi', short: 'Vaisakhi', note: 'Founding of the Khalsa' },
+  { d: '2027-04-15', k: 'hindu', name: 'Ram Navami', short: 'Ram Navami', note: 'Birth of Lord Rama' }
+];
+// Indian national days repeat every year on fixed dates.
+var FIRST_YEAR = 2027, LAST_YEAR = 2030;
+for (var yr = FIRST_YEAR; yr <= LAST_YEAR; yr++) {
+  EVENTS.push({ d: yr + '-01-26', k: 'national', name: 'Republic Day ' + yr, short: 'Republic Day', note: 'Flag hoisting & performances', eic: 'tbc', eicName: 'EIC Republic Day ' + yr });
+  EVENTS.push({ d: yr + '-08-15', k: 'national', name: 'Independence Day ' + yr, short: 'Independence Day', note: 'Flag ceremony & picnic', eic: 'tbc', eicName: 'EIC Independence Day ' + yr });
+}
+EVENTS.sort(function (a, b) { return a.d < b.d ? -1 : a.d > b.d ? 1 : 0; });
+var MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+var DOW = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+function parse(s) { var p = s.split('-'); return new Date(+p[0], +p[1] - 1, +p[2]); }
+function fmt(dt) { return DOW[dt.getDay()] + ' ' + dt.getDate() + ' ' + MONTHS[dt.getMonth()].slice(0, 3) + ' ' + dt.getFullYear(); }
+function hasEicDate(e) { return !!e.eic && e.eic !== 'tbc'; }
+
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { y: 2026, m: 10, filter: 'all' };
+  }
+  renderVals() {
+    var self = this;
+    var st = this.state;
+    var minKey = 2026 * 12 + 10, maxKey = LAST_YEAR * 12 + 11;
+    var key = st.y * 12 + st.m;
+    var match = function (e) {
+      if (st.filter === 'all') return true;
+      if (st.filter === 'eic') return !!e.eic;
+      return e.k === st.filter;
+    };
+    // Calendar entries: one per festival date, plus one per confirmed EIC celebration date.
+    var entries = [];
+    EVENTS.forEach(function (e) {
+      var fd = parse(e.d), s = STYLE[e.k];
+      if (st.filter !== 'eic' && match(e)) {
+        entries.push({ dt: fd, name: e.name, short: e.short, bg: s.bg, ink: s.ink, tagInk: s.tagInk, tag: s.label + ' · festival date',
+          note: e.note + (e.eic === 'tbc' ? ' · EIC celebration date TBC' : (hasEicDate(e) ? ' · EIC celebrates on ' + fmt(parse(e.eic)) : '')), isEic: false });
+      }
+      if (hasEicDate(e) && (st.filter === 'all' || st.filter === 'eic' || st.filter === e.k)) {
+        var ed = parse(e.eic), es = STYLE.eic;
+        entries.push({ dt: ed, name: e.eicName, short: e.eicName, bg: es.bg, ink: es.ink, tagInk: es.tagInk, tag: 'EIC celebration',
+          note: e.eicNote + ' · ' + e.name + ' falls on ' + fmt(fd), isEic: true });
+      }
+    });
+    entries.forEach(function (x) { x.day = x.dt.getDate(); x.dow = DOW[x.dt.getDay()]; });
+    entries.sort(function (a, b) { return a.dt - b.dt; });
+    var inMonth = entries.filter(function (x) { return x.dt.getFullYear() === st.y && x.dt.getMonth() === st.m; });
+
+    var first = new Date(st.y, st.m, 1);
+    var offset = (first.getDay() + 6) % 7;
+    var daysIn = new Date(st.y, st.m + 1, 0).getDate();
+    var total = Math.ceil((offset + daysIn) / 7) * 7;
+    var cells = [];
+    for (var i = 0; i < total; i++) {
+      var dn = i - offset + 1;
+      var valid = dn >= 1 && dn <= daysIn;
+      var evs = valid ? inMonth.filter(function (x) { return x.day === dn; }) : [];
+      var eicDay = evs.some(function (x) { return x.isEic; });
+      cells.push({ num: valid ? dn : '', events: evs, bg: valid ? (eicDay ? '#E1F1E2' : (evs.length ? '#FFF8EC' : '#FFFFFF')) : '#FAF6EE', border: valid ? (eicDay ? '#06622A' : '#EFE7D8') : 'transparent' });
+    }
+
+    var rows = EVENTS.filter(match).map(function (e) {
+      var s = STYLE[e.k], has = hasEicDate(e);
+      return { name: e.name, tag: s.label, bg: s.bg, ink: s.ink, festFull: fmt(parse(e.d)),
+        hasEicDate: has, eicTbc: e.eic === 'tbc', noEic: !e.eic, eicFull: has ? fmt(parse(e.eic)) : '',
+        note: has ? e.eicName + ' · ' + e.eicNote : (e.eic === 'tbc' ? e.eicName + ' · [Time & venue TBC] · ' + e.note : e.note),
+        rowBg: e.eic ? '#F7FBF7' : '#FFFFFF' };
+    });
+
+    var defs = [['all', 'All'], ['eic', 'EIC celebrations'], ['hindu', 'Hindu'], ['muslim', 'Muslim'], ['sikh', 'Sikh'], ['christian', 'Christian'], ['national', 'Indian national days']];
+    var filters = defs.map(function (d) {
+      var on = st.filter === d[0];
+      var s = STYLE[d[0]] || { bg: '#1D1B18', ink: '#FFFFFF' };
+      return { label: d[1], pressed: on ? 'true' : 'false', bg: on ? s.bg : '#FFFFFF', ink: on ? s.ink : '#1D1B18', border: on ? s.ink : '#CFC4B0',
+        pick: function () { self.setState({ filter: d[0] }); } };
+    });
+    return {
+      filters: filters,
+      weekdays: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
+      cells: cells,
+      monthLabel: MONTHS[st.m] + ' ' + st.y,
+      monthShort: MONTHS[st.m],
+      monthEvents: inMonth,
+      noneThisMonth: inMonth.length === 0,
+      rows: rows,
+      prev: function () { if (key > minKey) { var k = key - 1; self.setState({ y: Math.floor(k / 12), m: k % 12 }); } },
+      next: function () { if (key < maxKey) { var k = key + 1; self.setState({ y: Math.floor(k / 12), m: k % 12 }); } }
+    };
+  }
+}
+mountPage(Component);
+</script>
+</body>
+</html>

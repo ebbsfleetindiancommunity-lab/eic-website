@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EIC — Ask Padosi assistant</title>
+<meta name="description" content="Ask Padosi, the EIC AI neighbour, for local businesses and community events.">
+<meta property="og:title" content="EIC — Ask Padosi assistant">
+<meta property="og:description" content="Ask Padosi, the EIC AI neighbour, for local businesses and community events.">
+<meta property="og:image" content="assets/eic-logo.jpg">
+<link rel="icon" href="assets/eic-logo.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&amp;family=Hind:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0;background:#FFFCF6}
+a{color:#06622A}a:hover{color:#A3500B}
+</style>
+<style>[v-cloak]{display:none} img{max-width:100%}</style>
+<script src="assets/petite-vue.iife.js"></script>
+<script src="assets/eic-runtime.js"></script>
+</head>
+<body>
+<div id="app" v-cloak>
+<div style="font-family: 'Hind', system-ui, sans-serif; color: #1D1B18; background: #FFFCF6; font-size: 17px; line-height: 1.55">
+
+<header style="background: #FFFCF6; border-bottom: 1px solid #E7DFD0">
+<nav aria-label="Main" style="max-width: 1240px; margin: 0 auto; padding: 14px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
+<a href="index.html" style="display: flex; align-items: center; gap: 12px; text-decoration: none; color: #1D1B18">
+<img src="assets/eic-logo.jpg" alt="Ebbsfleet Indian Community logo" style="width: 180px; height: 180px; border-radius: 50%; object-fit: cover">
+<span style="display: flex; flex-direction: column; line-height: 1.15"><span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 19px">Ebbsfleet Indian Community</span><span style="font-size: 14px; color: #5E584F">Ebbsfleet Valley · Kent</span></span>
+</a>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 4px 6px; font-weight: 500">
+<a href="index.html" style="padding: 10px 12px; text-decoration: none; color: #1D1B18">Home</a>
+<a href="events.html" style="padding: 10px 12px; text-decoration: none; color: #1D1B18">Events</a>
+<a href="directory.html" style="padding: 10px 12px; text-decoration: none; color: #1D1B18">Business directory</a>
+<a href="gallery.html" style="padding: 10px 12px; text-decoration: none; color: #1D1B18">Gallery</a>
+<a href="ask-padosi.html" style="padding: 10px 12px; text-decoration: none; color: #06622A; border-bottom: 2px solid #EE5905">Ask Padosi</a>
+<a href="sponsor.html" style="padding: 10px 12px; text-decoration: none; color: #1D1B18">Sponsor</a>
+<a href="directory.html#list" style="margin-left: 8px; padding: 11px 18px; border-radius: 999px; background: #06622A; color: #FFFFFF; text-decoration: none; font-weight: 600">List your business</a>
+</div>
+</nav>
+</header>
+
+<section style="max-width: 1240px; margin: 0 auto; padding: 40px 24px 80px; display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start">
+
+<div style="flex: 999 1 640px; min-width: 0; background: #FFFFFF; border: 1px solid #E7DFD0; border-radius: 24px; overflow: hidden; display: flex; flex-direction: column">
+<div style="background: #06622A; color: #FFFFFF; padding: 18px 22px; display: flex; align-items: center; gap: 14px">
+<img src="assets/eic-logo.jpg" alt="" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover; background: #FFFFFF">
+<div style="display: flex; flex-direction: column; line-height: 1.2">
+<h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 22px">Ask Padosi</h1>
+<span style="font-size: 14px; color: #DCEFE0">Your friendly EIC neighbour for local businesses, events and community questions</span>
+</div>
+</div>
+
+<div aria-live="polite" style="padding: 22px; display: flex; flex-direction: column; gap: 16px; min-height: 520px; background: #FBF8F1">
+<span style="display: contents" v-for="(m, $index) in messages">
+<span style="display: contents" v-if="m.isUser">
+<div style="align-self: flex-end; max-width: 78%; padding: 12px 16px; border-radius: 18px 18px 4px 18px; background: #06622A; color: #FFFFFF">{{m.text}}</div>
+</span>
+<span style="display: contents" v-if="m.isBot">
+<div style="align-self: flex-start; max-width: 88%; display: flex; flex-direction: column; gap: 10px">
+<span :style="`align-self: flex-start; font-size: 13px; font-weight: 600; padding: 2px 10px; border-radius: 999px; background: ${m.srcBg}; color: ${m.srcInk}`">{{m.source}}</span>
+<div style="padding: 12px 16px; border-radius: 18px 18px 18px 4px; background: #FFFFFF; border: 1px solid #E7DFD0">{{m.text}}</div>
+<span style="display: contents" v-for="(c, $index) in m.cards">
+<div :style="`padding: 14px 16px; border-radius: 14px; background: #FFFFFF; border: 1px solid ${c.border}; display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; justify-content: space-between`">
+<div style="min-width: 0">
+<div style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 18px">{{c.name}}</div>
+<div style="font-size: 15px; color: #5E584F">{{c.meta}}</div>
+</div>
+<a :href="c.href" :target="c.target" rel="noopener" style="min-height: 44px; display: flex; align-items: center; padding: 0 16px; border-radius: 999px; border: 1px solid #CFC4B0; color: #1D1B18; text-decoration: none; font-weight: 600">{{c.cta}}</a>
+</div>
+</span>
+<span style="display: contents" v-if="m.webNote">
+<span style="font-size: 14px; color: #5E584F">These come from Google and haven't been checked by EIC.</span>
+</span>
+</div>
+</span>
+</span>
+</div>
+
+<div style="padding: 16px 22px 22px; border-top: 1px solid #E7DFD0; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<span style="display: contents" v-for="(c, $index) in chips">
+<button type="button" @click="c.ask" style="min-height: 40px; padding: 0 14px; border-radius: 999px; border: 1px solid #CFC4B0; background: #FFFFFF; color: #1D1B18; font: inherit; font-size: 15px; cursor: pointer">{{c.label}}</button>
+</span>
+</div>
+<div style="display: flex; gap: 10px">
+<label for="msg" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Your question</label>
+<input id="msg" type="text" :value="draft" @input="onDraft" placeholder="Ask about a business, a service or an event…" style="flex: 1 1 auto; min-width: 0; height: 52px; padding: 0 16px; border-radius: 12px; border: 1px solid #CFC4B0; font: inherit">
+<button type="button" @click="send" style="flex: 0 0 auto; height: 52px; padding: 0 22px; border-radius: 12px; border: 0; background: #F2782A; color: #1D1B18; font: inherit; font-weight: 600; cursor: pointer">Send</button>
+</div>
+</div>
+</div>
+
+<aside style="flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 18px">
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 28px; line-height: 1.15">How Ask Padosi finds answers</h2>
+<ol style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 12px">
+<li style="display: flex; gap: 14px; padding: 16px; border-radius: 16px; background: #E1F1E2">
+<span style="width: 32px; height: 32px; flex-shrink: 0; border-radius: 50%; background: #06622A; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-weight: 700">1</span>
+<span><strong>EIC directory first.</strong> Businesses listed and reviewed by EIC volunteers are always suggested first.</span>
+</li>
+<li style="display: flex; gap: 14px; padding: 16px; border-radius: 16px; background: #FCE7C8">
+<span style="width: 32px; height: 32px; flex-shrink: 0; border-radius: 50%; background: #8A4100; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-weight: 700">2</span>
+<span><strong>Then Google.</strong> If nothing fits, it searches Google and Google Maps for providers around Ebbsfleet, Kent, and labels them as not checked by EIC.</span>
+</li>
+<li style="display: flex; gap: 14px; padding: 16px; border-radius: 16px; background: #F5EFE3">
+<span style="width: 32px; height: 32px; flex-shrink: 0; border-radius: 50%; background: #1D1B18; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-weight: 700">3</span>
+<span><strong>Events and faith dates.</strong> It also answers questions about EIC events and upcoming festivals from the calendar.</span>
+</li>
+</ol>
+<div style="padding: 18px; border-radius: 16px; border: 1px solid #E7DFD0; background: #FFFFFF">
+<p style="margin: 0 0 10px">Know a great local business that's missing?</p>
+<a href="directory.html#list" style="font-weight: 600">Invite them to list with EIC →</a>
+</div>
+</aside>
+</section>
+
+</div>
+</div>
+<script>
+var DIR = {
+  electrician: [
+    { name: 'Charlie Electrical', meta: 'Electrician · Ebbsfleet Garden City · 24/7' },
+    { name: 'A-Demand Electrical Solutions Ltd', meta: 'Electrician · Dartford · 24/7' },
+    { name: 'Sj Supplies', meta: 'Electrician · Ebbsfleet Garden City' }
+  ],
+  plumb: [
+    { name: 'Dave’s Plumbing Services', meta: 'Plumber · Ebbsfleet Garden City · 24/7' },
+    { name: 'CSE Heating Ltd', meta: 'Plumber · Ebbsfleet Garden City · Gas Safe' },
+    { name: 'Sky Plumbing & Heating Ltd', meta: 'Plumber · Swanscombe' }
+  ],
+  cater: [
+    { name: 'Lehsun – North Indian Catering', meta: 'Event catering · Ebbsfleet Garden City' },
+    { name: 'Chai Kadak', meta: 'Indian street food & catering · Ebbsfleet Garden City' }
+  ],
+  pandit: [
+    { name: 'Pandit Gauransh Vasishth Sharma', meta: 'Hindu priest · Harbour Village · 24/7' },
+    { name: 'Pandit Pankaj Sharma', meta: 'Hindu priest · Harbour Village' }
+  ],
+  priest: [
+    { name: 'Pandit Gauransh Vasishth Sharma', meta: 'Hindu priest · Harbour Village · 24/7' },
+    { name: 'Viral Gor Pandit Ji', meta: 'Priest at Gravesend Mandir' }
+  ],
+  grocer: [
+    { name: 'Real Superstores', meta: 'Indian groceries · Ebbsfleet Garden City' },
+    { name: 'Fresh Basket', meta: 'Community grocery service · Ebbsfleet Garden City' }
+  ],
+  clean: [
+    { name: 'The Ebbsfleet Cleaning Co', meta: 'House cleaning · Ebbsfleet Garden City' },
+    { name: 'Sparkle Clean', meta: 'House cleaning · Ebbsfleet Garden City' }
+  ],
+  driving: [{ name: 'Anjalis Driving School', meta: 'Driving instructor · Gravesend' }],
+  locksmith: [{ name: 'Swiftlock Locksmiths', meta: 'Locksmith · Ebbsfleet Garden City · 24/7' }],
+  account: [
+    { name: 'Ridge Financials', meta: 'Accountant · Ebbsfleet Garden City' },
+    { name: 'KLS Tax & Accounting Limited', meta: 'Accountant · Harbour Village' }
+  ],
+  cake: [
+    { name: 'Nextdoorbakes', meta: 'Bakers · Ebbsfleet Garden City' },
+    { name: 'Garden City Bakes', meta: 'Bakers · Ebbsfleet Garden City' }
+  ]
+};
+var EVENT_WORDS = ['diwali', 'holi', 'republic', 'independence', 'event', 'festival', 'eid', 'vaisakhi', 'gurpurab', 'christmas', 'easter'];
+
+function answer(q) {
+  var t = q.toLowerCase();
+  var keys = Object.keys(DIR);
+  for (var i = 0; i < keys.length; i++) {
+    if (t.indexOf(keys[i]) !== -1) {
+      var hits = DIR[keys[i]];
+      return { isBot: true, isUser: false, source: 'From the EIC directory', srcBg: '#E1F1E2', srcInk: '#06622A',
+        text: 'Here ' + (hits.length === 1 ? 'is a business' : 'are ' + hits.length + ' businesses') + ' from the EIC directory that can help:',
+        cards: hits.map(function (h) { return { name: h.name, meta: h.meta, cta: 'View & contact', href: 'directory.html', target: '_self', border: '#C7E5CB' }; }), webNote: false };
+    }
+  }
+  for (var j = 0; j < EVENT_WORDS.length; j++) {
+    if (t.indexOf(EVENT_WORDS[j]) !== -1) {
+      return { isBot: true, isUser: false, source: 'From the EIC calendar', srcBg: '#E1F1E2', srcInk: '#06622A',
+        text: 'EIC is celebrating Diwali with Ebbsfleet Ki Deepawali 2026 on Saturday 7 November 2026 (Diwali itself falls on Sunday 8 November). Time and venue will be announced soon. The full calendar includes Hindu, Muslim, Sikh and Christian dates.',
+        cards: [{ name: 'Events & faith calendar', meta: 'All upcoming dates', cta: 'Open calendar', href: 'events.html', target: '_self', border: '#C7E5CB' }], webNote: false };
+    }
+  }
+  var subject = q.replace(/^(i need|need|looking for|find|find me|any|anyone know)( an?| some)?\s*/i, '').replace(/[?.!]+$/, '') || 'that';
+  var gq = encodeURIComponent(subject + ' near Ebbsfleet, Kent');
+  return { isBot: true, isUser: false, source: 'Searched Google', srcBg: '#FCE7C8', srcInk: '#8A4100',
+    text: 'No EIC-listed business offers “' + subject + '” yet, so I searched Google for providers near Ebbsfleet, Kent:',
+    cards: [
+      { name: 'Google Search: ' + subject + ' near Ebbsfleet', meta: 'Websites, reviews and phone numbers', cta: 'Open Google', href: 'https://www.google.com/search?q=' + gq, target: '_blank', border: '#F8D6A6' },
+      { name: 'Google Maps: ' + subject + ' near Ebbsfleet', meta: 'Nearby places with ratings, opening hours and directions', cta: 'Open Maps', href: 'https://www.google.com/maps/search/' + gq, target: '_blank', border: '#F8D6A6' }
+    ], webNote: true };
+}
+
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    var q = 'Can anyone recommend an electrician near Castle Hill?';
+    this.state = { draft: '', messages: [
+      { isUser: true, isBot: false, text: q, cards: [] },
+      answer(q)
+    ] };
+  }
+  ask(q) {
+    if (!q || !q.trim()) return;
+    var msgs = this.state.messages.concat([{ isUser: true, isBot: false, text: q.trim(), cards: [] }, answer(q.trim())]);
+    this.setState({ messages: msgs.slice(-8), draft: '' });
+  }
+  renderVals() {
+    var self = this;
+    return {
+      messages: this.state.messages,
+      draft: this.state.draft,
+      onDraft: function (e) { self.setState({ draft: e.target.value }); },
+      send: function () { self.ask(self.state.draft); },
+      chips: ['I need a plumber', 'Can you recommend a pandit?', 'I need a dog walker', 'When is the Diwali event?'].map(function (l) {
+        return { label: l, ask: function () { self.ask(l); } };
+      })
+    };
+  }
+}
+mountPage(Component);
+</script>
+</body>
+</html>

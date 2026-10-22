@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://ebbsfleetindiancommunity.co.uk/sitemap.xml

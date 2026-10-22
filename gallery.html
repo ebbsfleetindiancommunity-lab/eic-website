@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EIC — Photo gallery</title>
+<meta name="description" content="Photo albums from Ebbsfleet Indian Community celebrations.">
+<meta property="og:title" content="EIC — Photo gallery">
+<meta property="og:description" content="Photo albums from Ebbsfleet Indian Community celebrations.">
+<meta property="og:image" content="assets/eic-logo.jpg">
+<link rel="icon" href="assets/eic-logo.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&amp;family=Hind:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0;background:#FFFCF6}
+a{color:#06622A}a:hover{color:#A3500B}
+</style>
+<style>[v-cloak]{display:none} img{max-width:100%}</style>
+<script src="assets/petite-vue.iife.js"></script>
+<script src="assets/eic-runtime.js"></script>
+</head>
+<body>
+<div id="app" v-cloak>
+<div style="font-family: 'Hind', system-ui, sans-serif; color: #1D1B18; background: #FFFCF6; font-size: 17px; line-height: 1.55">
+
+<header style="background: #FFFCF6; border-bottom: 1px solid #E7DFD0">
+<nav aria-label="Main" style="max-width: 1240px; margin: 0 auto; padding: 14px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
+<a href="index.html" style="display: flex; align-items: center; gap: 12px; text-decoration: none; color: #1D1B18">
+<img src="assets/eic-logo.jpg" alt="Ebbsfleet Indian Community logo" style="width: 180px; height: 180px; border-radius: 50%; object-fit: cover">
+<span style="display: flex; flex-direction: column; line-height: 1.15"><span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 19px">Ebbsfleet Indian Community</span><span style="font-size: 14px; color: #5E584F">Ebbsfleet Valley · Kent</span></span>
+</a>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 4px 6px; font-weight: 500">
+<a href="index.html" style="padding: 10px 12px; text-decoration: none; color: #1D1B18">Home</a>
+<a href="events.html" style="padding: 10px 12px; text-decoration: none; color: #1D1B18">Events</a>
+<a href="directory.html" style="padding: 10px 12px; text-decoration: none; color: #1D1B18">Business directory</a>
+<a href="gallery.html" style="padding: 10px 12px; text-decoration: none; color: #06622A; border-bottom: 2px solid #EE5905">Gallery</a>
+<a href="ask-padosi.html" style="padding: 10px 12px; text-decoration: none; color: #1D1B18">Ask Padosi</a>
+<a href="sponsor.html" style="padding: 10px 12px; text-decoration: none; color: #1D1B18">Sponsor</a>
+<a href="directory.html#list" style="margin-left: 8px; padding: 11px 18px; border-radius: 999px; background: #06622A; color: #FFFFFF; text-decoration: none; font-weight: 600">List your business</a>
+</div>
+</nav>
+</header>
+
+<section style="max-width: 1240px; margin: 0 auto; padding: 56px 24px 8px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 20px">
+<div style="flex: 1 1 520px; min-width: 0">
+<p style="margin: 0; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; font-size: 14px; color: #A3500B">Memories</p>
+<h1 style="margin: 6px 0 10px; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(38px, 5vw, 60px); line-height: 1.05">Photo gallery</h1>
+<p style="margin: 0; max-width: 640px; color: #5E584F">Albums from every EIC celebration. Spot yourself? Download your photos, or ask us to remove one.</p>
+</div>
+<a href="#" style="padding: 12px 20px; border-radius: 999px; background: #06622A; color: #FFFFFF; text-decoration: none; font-weight: 600">Upload photos (organisers)</a>
+</section>
+
+<section style="max-width: 1240px; margin: 0 auto; padding: 24px 24px 0">
+<div role="group" aria-label="Year" style="display: flex; flex-wrap: wrap; gap: 10px">
+<span style="display: contents" v-for="(y, $index) in years">
+<button type="button" @click="y.pick" :aria-pressed="y.pressed" :style="`min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1px solid ${y.border}; background: ${y.bg}; color: ${y.ink}; font: inherit; font-weight: 600; cursor: pointer`">{{y.label}}</button>
+</span>
+</div>
+</section>
+
+<section style="max-width: 1240px; margin: 0 auto; padding: 24px 24px 0">
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px">
+<span style="display: contents" v-for="(a, $index) in albums">
+<button type="button" @click="a.pick" :aria-pressed="a.pressed" :style="`text-align: left; padding: 0; border: 2px solid ${a.ring}; border-radius: 20px; background: #FFFFFF; cursor: pointer; font: inherit; color: #1D1B18; overflow: hidden; display: flex; flex-direction: column`">
+<span style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 3px; width: 100%">
+<span :style="`grid-column: 1 / -1; height: 150px; background: ${a.tint}; color: ${a.ink}; display: flex; align-items: center; justify-content: center; font-weight: 600`">[Cover photo]</span>
+<span :style="`height: 70px; background: ${a.tint2}`"></span>
+<span :style="`height: 70px; background: ${a.tint2}`"></span>
+</span>
+<span style="padding: 14px 18px 18px; display: flex; flex-direction: column; gap: 2px">
+<span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 21px">{{a.name}}</span>
+<span style="color: #5E584F; font-size: 15px">{{a.date}} · [Venue]</span>
+</span>
+</button>
+</span>
+</div>
+</section>
+
+<section aria-labelledby="albumh" style="max-width: 1240px; margin: 0 auto; padding: 48px 24px 80px">
+<div style="background: #FFFFFF; border: 1px solid #E7DFD0; border-radius: 24px; padding: 28px">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 16px; margin-bottom: 20px">
+<div>
+<span style="font-size: 14px; font-weight: 600; color: #A3500B; text-transform: uppercase; letter-spacing: 0.06em">Album</span>
+<h2 id="albumh" style="margin: 2px 0 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 34px">{{current.name}}</h2>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 10px">
+<a href="#" style="min-height: 44px; display: flex; align-items: center; padding: 0 16px; border-radius: 999px; border: 1px solid #CFC4B0; color: #1D1B18; text-decoration: none; font-weight: 600">Download album</a>
+<a href="#" style="min-height: 44px; display: flex; align-items: center; padding: 0 16px; border-radius: 999px; border: 1px solid #CFC4B0; color: #1D1B18; text-decoration: none; font-weight: 600">Share</a>
+</div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px">
+<span style="display: contents" v-for="(p, $index) in photos">
+<button type="button" :aria-label="`Open photo ${p.n}`" :style="`aspect-ratio: 1 / 1; border: 0; border-radius: 12px; background: ${p.tint}; color: ${p.ink}; font: inherit; font-size: 14px; cursor: zoom-in`">[Photo {{p.n}}]</button>
+</span>
+</div>
+<p style="margin: 18px 0 0; color: #5E584F; font-size: 15px">Photos are shared with consent. To have a photo removed, email <a href="mailto:ebbsfleetindiancommunity@gmail.com">ebbsfleetindiancommunity@gmail.com</a>. More photos on Instagram: <a href="https://www.instagram.com/ebbsfleet_indians/">@ebbsfleet_indians</a>.</p>
+</div>
+</section>
+
+</div>
+</div>
+<script>
+var ALBUMS = [
+  { id: 'diw25', year: '2025', name: 'Diwali Mela 2025', date: 'Nov 2025', tint: '#FCE7C8', tint2: '#F8D6A6', ink: '#8A4100' },
+  { id: 'rep26', year: '2026', name: 'Republic Day 2026', date: 'Jan 2026', tint: '#E1F1E2', tint2: '#C7E5CB', ink: '#06622A' },
+  { id: 'hol26', year: '2026', name: 'Holi 2026', date: 'Mar 2026', tint: '#F6DCE8', tint2: '#EEC3D7', ink: '#6B1D44' },
+  { id: 'ind26', year: '2026', name: 'Independence Day 2026', date: 'Aug 2026', tint: '#FDE3D2', tint2: '#F9CBAE', ink: '#8F3A12' }
+];
+
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { year: 'All', album: 'ind26' };
+  }
+  renderVals() {
+    var self = this, st = this.state;
+    var list = ALBUMS.filter(function (a) { return st.year === 'All' || a.year === st.year; });
+    var cur = ALBUMS.filter(function (a) { return a.id === st.album; })[0] || ALBUMS[0];
+    var photos = [];
+    for (var i = 1; i <= 12; i++) photos.push({ n: i, tint: i % 3 === 0 ? cur.tint2 : cur.tint, ink: cur.ink });
+    return {
+      years: ['All', '2026', '2025'].map(function (y) {
+        var on = st.year === y;
+        return { label: y === 'All' ? 'All albums' : y, pressed: on ? 'true' : 'false', bg: on ? '#06622A' : '#FFFFFF', ink: on ? '#FFFFFF' : '#1D1B18', border: on ? '#06622A' : '#CFC4B0', pick: function () { self.setState({ year: y }); } };
+      }),
+      albums: list.map(function (a) {
+        var on = a.id === cur.id;
+        return Object.assign({}, a, { pressed: on ? 'true' : 'false', ring: on ? '#EE5905' : '#E7DFD0', pick: function () { self.setState({ album: a.id }); } });
+      }),
+      current: cur,
+      photos: photos
+    };
+  }
+}
+mountPage(Component);
+</script>
+</body>
+</html>

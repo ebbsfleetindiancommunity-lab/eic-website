@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EIC — Local business directory</title>
+<meta name="description" content="Local business directory for Ebbsfleet Valley: trades, food, pandits, cleaners, tutors and more.">
+<meta property="og:title" content="EIC — Local business directory">
+<meta property="og:description" content="Local business directory for Ebbsfleet Valley: trades, food, pandits, cleaners, tutors and more.">
+<meta property="og:image" content="assets/eic-logo.jpg">
+<link rel="icon" href="assets/eic-logo.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&amp;family=Hind:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0;background:#FFFCF6}
+a{color:#06622A}a:hover{color:#A3500B}
+</style>
+<style>[v-cloak]{display:none} img{max-width:100%}</style>
+<script src="assets/petite-vue.iife.js"></script>
+<script src="assets/eic-runtime.js"></script>
+</head>
+<body>
+<div id="app" v-cloak>
+<div style="font-family: 'Hind', system-ui, sans-serif; color: #1D1B18; background: #FFFCF6; font-size: 17px; line-height: 1.55">
+
+<header style="background: #FFFCF6; border-bottom: 1px solid #E7DFD0">
+<nav aria-label="Main" style="max-width: 1240px; margin: 0 auto; padding: 12px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
+<a href="index.html" style="display: flex; align-items: center; gap: 14px; text-decoration: none; color: #1D1B18">
+<img src="assets/eic-logo.jpg" alt="Ebbsfleet Indian Community logo" style="width: 180px; height: 180px; border-radius: 50%; object-fit: cover">
+<span style="display: flex; flex-direction: column; line-height: 1.15"><span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 21px">Ebbsfleet Indian Community</span><span style="font-size: 14px; color: #5E584F">Ebbsfleet Valley · Kent</span></span>
+</a>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 4px 6px; font-weight: 500">
+<a href="index.html" style="padding: 10px 12px; text-decoration: none; color: #1D1B18">Home</a>
+<a href="events.html" style="padding: 10px 12px; text-decoration: none; color: #1D1B18">Events</a>
+<a href="directory.html" style="padding: 10px 12px; text-decoration: none; color: #06622A; border-bottom: 2px solid #EE5905">Business directory</a>
+<a href="gallery.html" style="padding: 10px 12px; text-decoration: none; color: #1D1B18">Gallery</a>
+<a href="ask-padosi.html" style="padding: 10px 12px; text-decoration: none; color: #1D1B18">Ask Padosi</a>
+<a href="sponsor.html" style="padding: 10px 12px; text-decoration: none; color: #1D1B18">Sponsor</a>
+<a href="#list" style="margin-left: 8px; padding: 11px 18px; border-radius: 999px; background: #06622A; color: #FFFFFF; text-decoration: none; font-weight: 600">List your business</a>
+</div>
+</nav>
+</header>
+
+<section style="background: #06622A; color: #FFFFFF">
+<div style="max-width: 1240px; margin: 0 auto; padding: 56px 24px 40px">
+<p style="margin: 0; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; font-size: 14px; color: #F7C774">Support local</p>
+<h1 style="margin: 6px 0 10px; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(38px, 5vw, 60px); line-height: 1.05">Local business directory</h1>
+<p style="margin: 0 0 26px; max-width: 700px; color: #DCEFE0">{{totalLabel}} in and around Ebbsfleet Valley: trades, food, priests, tuition and more. Includes listings from the <a href="https://directory.ebbsfleet.info/" style="color: #F7C774">Ebbsfleet community directory</a>.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end">
+<div style="flex: 999 1 360px; min-width: 0; display: flex; flex-direction: column; gap: 6px">
+<label for="q" style="font-weight: 500">Search businesses</label>
+<input id="q" type="search" :value="query" @input="onQuery" placeholder="Try “electrician”, “pandit” or “catering”" style="height: 54px; padding: 0 18px; border-radius: 12px; border: 0; font: inherit; color: #1D1B18">
+</div>
+<div style="flex: 1 1 220px; min-width: 0; display: flex; flex-direction: column; gap: 6px">
+<label for="fc" style="font-weight: 500">Category</label>
+<select id="fc" :value="cat" @change="onCat" style="height: 54px; padding: 0 14px; border-radius: 12px; border: 0; font: inherit; color: #1D1B18; background: #FFFFFF">
+<option value="All">All categories</option>
+<template v-for="(c, $index) in catOptions"><option :value="c.value">{{c.label}}</option></template>
+</select>
+</div>
+<div style="flex: 1 1 200px; min-width: 0; display: flex; flex-direction: column; gap: 6px">
+<label for="fa" style="font-weight: 500">Area</label>
+<select id="fa" :value="area" @change="onArea" style="height: 54px; padding: 0 14px; border-radius: 12px; border: 0; font: inherit; color: #1D1B18; background: #FFFFFF">
+<option value="All">All areas</option>
+<template v-for="(a, $index) in areaOptions"><option :value="a">{{a}}</option></template>
+</select>
+</div>
+</div>
+</div>
+</section>
+
+<section style="max-width: 1240px; margin: 0 auto; padding: 24px 24px 0; display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; align-items: center">
+<p style="margin: 0; color: #5E584F">{{countLabel}}<span style="display: contents" v-if="multiPage"> · {{pageLabel}} · <button type="button" @click="prevPage" :disabled="atFirst" :style="`min-height: 36px; padding: 0 12px; border-radius: 999px; border: 1px solid #CFC4B0; background: ${prevBg}; font: inherit; font-size: 15px; cursor: pointer`">← Prev</button> <button type="button" @click="nextPage" :disabled="atLast" :style="`min-height: 36px; padding: 0 12px; border-radius: 999px; border: 1px solid #CFC4B0; background: ${nextBg}; font: inherit; font-size: 15px; cursor: pointer`">Next →</button></span></p>
+<label style="display: flex; gap: 10px; align-items: center; min-height: 44px; font-weight: 500"><input type="checkbox" :checked="only247" @change="on247" style="width: 22px; height: 22px">Available 24/7 only</label>
+</section>
+
+<section id="results" style="max-width: 1240px; margin: 0 auto; padding: 12px 24px 0">
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px">
+<span style="display: contents" v-for="(b, $index) in results">
+<article style="background: #FFFFFF; border: 1px solid #E7DFD0; border-radius: 18px; padding: 22px; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; gap: 14px; align-items: center">
+<div aria-hidden="true" :style="`width: 56px; height: 56px; flex-shrink: 0; border-radius: 14px; background: ${b.tint}; color: ${b.ink}; display: flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 20px`">{{b.initials}}</div>
+<div style="min-width: 0">
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 21px; line-height: 1.2">{{b.name}}</h2>
+<span style="font-size: 15px; color: #5E584F">{{b.cat}} · {{b.area}}</span>
+</div>
+</div>
+<p style="margin: 0; color: #3E3A34; flex-grow: 1">{{b.descText}}</p>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<span style="display: contents" v-if="b.isNew"><span style="font-size: 13px; font-weight: 600; color: #FFFFFF; background: #C2410C; padding: 2px 10px; border-radius: 999px">New</span></span>
+<span style="display: contents" v-if="b.h24"><span style="font-size: 13px; font-weight: 600; color: #1F3F7A; background: #DCE6F7; padding: 2px 10px; border-radius: 999px">24/7</span></span>
+<span style="display: contents" v-if="b.imported"><span style="font-size: 13px; color: #5E584F; border: 1px solid #E7DFD0; padding: 1px 8px; border-radius: 6px">via ebbsfleet.info</span></span>
+</div>
+<div style="margin-top: 4px; display: flex; flex-wrap: wrap; gap: 10px">
+<span style="display: contents" v-if="b.isNew"><a href="#" style="min-height: 44px; display: flex; align-items: center; padding: 0 16px; border-radius: 999px; background: #06622A; color: #FFFFFF; text-decoration: none; font-weight: 600">Call {{b.phone}}</a></span>
+<span style="display: contents" v-if="b.imported"><a :href="b.href" target="_blank" rel="noopener" style="min-height: 44px; display: flex; align-items: center; padding: 0 16px; border-radius: 999px; background: #06622A; color: #FFFFFF; text-decoration: none; font-weight: 600">View contact details</a></span>
+</div>
+</article>
+</span>
+</div>
+<span style="display: contents" v-if="multiPage">
+<nav aria-label="Directory pages" style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; align-items: center; padding-top: 32px">
+<button type="button" @click="prevPage" :disabled="atFirst" :style="`min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1px solid #CFC4B0; background: ${prevBg}; color: #1D1B18; font: inherit; font-weight: 600; cursor: pointer`">← Previous</button>
+<span style="display: contents" v-for="(p, $index) in pages">
+<button type="button" @click="p.go" :aria-current="p.current" :aria-label="`Page ${p.n}`" :style="`width: 44px; height: 44px; border-radius: 50%; border: 1px solid ${p.border}; background: ${p.bg}; color: ${p.ink}; font: inherit; font-weight: 600; cursor: pointer`">{{p.n}}</button>
+</span>
+<button type="button" @click="nextPage" :disabled="atLast" :style="`min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1px solid #CFC4B0; background: ${nextBg}; color: #1D1B18; font: inherit; font-weight: 600; cursor: pointer`">Next →</button>
+</nav>
+<p style="margin: 10px 0 0; text-align: center; color: #5E584F; font-size: 15px">{{pageLabel}}</p>
+</span>
+<span style="display: contents" v-if="noResults">
+<div style="margin-top: 8px; padding: 28px; border-radius: 18px; background: #F5EFE3; display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between">
+<p style="margin: 0; flex: 1 1 360px">No listed business matches yet. Padosi, our AI neighbour, can search Google for providers near Ebbsfleet instead.</p>
+<a href="ask-padosi.html" style="padding: 12px 20px; border-radius: 999px; background: #06622A; color: #FFFFFF; text-decoration: none; font-weight: 600">Search nearby with Ask Padosi</a>
+</div>
+</span>
+</section>
+
+<section id="list" aria-labelledby="listh" style="max-width: 1240px; margin: 0 auto; padding: 72px 24px 80px">
+<div style="display: flex; flex-wrap: wrap; gap: 40px; align-items: flex-start">
+<div style="flex: 1 1 320px; min-width: 0">
+<p style="margin: 0; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; font-size: 14px; color: #A3500B">Free for local businesses</p>
+<h2 id="listh" style="margin: 6px 0 12px; font-family: 'Bricolage Grotesque', sans-serif; font-size: 40px; line-height: 1.1">List or recommend a business</h2>
+<p style="margin: 0 0 20px; color: #5E584F">Run a local business, or know a reliable local tradesperson? Submit the details and the listing appears in the directory straight away, ready for Padosi to recommend. EIC volunteers keep an eye on new listings and remove anything that isn't genuine.</p>
+<ol style="margin: 0; padding-left: 22px; display: flex; flex-direction: column; gap: 8px">
+<li>Fill in the form</li>
+<li>Your listing goes live instantly</li>
+<li>Padosi can recommend you straight away</li>
+</ol>
+</div>
+<div style="flex: 999 1 560px; min-width: 0; background: #FFFFFF; border: 1px solid #E7DFD0; border-radius: 20px; padding: 28px">
+<span style="display: contents" v-if="submitted">
+<div style="padding: 24px; border-radius: 14px; background: #E1F1E2; color: #06622A">
+<h3 style="margin: 0 0 6px; font-family: 'Bricolage Grotesque', sans-serif; font-size: 24px">You're live!</h3>
+<p style="margin: 0">{{lastName}} is now listed in the EIC directory and Padosi can recommend it.</p>
+<a href="#results" style="display: inline-block; margin: 12px 16px 0 0; font-weight: 600">See the listing</a>
+<button type="button" @click="reset" style="margin-top: 14px; min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1px solid #06622A; background: transparent; color: #06622A; font: inherit; font-weight: 600; cursor: pointer">Add another business</button>
+</div>
+</span>
+<span style="display: contents" v-if="showForm">
+<form style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px">
+<div style="display: flex; flex-direction: column; gap: 6px"><label for="bn" style="font-weight: 600">Business / provider name <span style="color: #B3261E" aria-hidden="true">*</span></label><input id="bn" type="text" required :value="f.name" @input="set.name" placeholder="e.g. Mike's Plumbing" style="height: 48px; padding: 0 14px; border-radius: 10px; border: 1px solid #CFC4B0; font: inherit"></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><label for="bcn" style="font-weight: 600">Contact name <span style="color: #B3261E" aria-hidden="true">*</span></label><input id="bcn" type="text" required :value="f.contact" @input="set.contact" placeholder="e.g. Mike Johnson" style="height: 48px; padding: 0 14px; border-radius: 10px; border: 1px solid #CFC4B0; font: inherit"></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><label for="bc" style="font-weight: 600">Category <span style="color: #B3261E" aria-hidden="true">*</span></label>
+<select id="bc" required :value="f.cat" @change="set.cat" style="height: 48px; padding: 0 12px; border-radius: 10px; border: 1px solid #CFC4B0; font: inherit; background: #FFFFFF; color: #1D1B18">
+<option value="">Select a trade</option>
+<template v-for="(t, $index) in trades"><option :value="t">{{t}}</option></template>
+</select></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><label for="ba" style="font-weight: 600">Service area <span style="color: #B3261E" aria-hidden="true">*</span></label>
+<select id="ba" required :value="f.area" @change="set.area" style="height: 48px; padding: 0 12px; border-radius: 10px; border: 1px solid #CFC4B0; font: inherit; background: #FFFFFF; color: #1D1B18">
+<option value="">Select an area</option>
+<template v-for="(a, $index) in areas"><option :value="a">{{a}}</option></template>
+</select></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><label for="bp" style="font-weight: 600">Phone number <span style="color: #B3261E" aria-hidden="true">*</span></label><input id="bp" type="tel" required :value="f.phone" @input="set.phone" placeholder="07700 900123" style="height: 48px; padding: 0 14px; border-radius: 10px; border: 1px solid #CFC4B0; font: inherit"></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><label for="bwa" style="font-weight: 600">WhatsApp number <span style="font-weight: 400; color: #5E584F; font-size: 14px">(optional)</span></label><input id="bwa" type="tel" placeholder="Same as phone or different" style="height: 48px; padding: 0 14px; border-radius: 10px; border: 1px solid #CFC4B0; font: inherit"></div>
+<div style="grid-column: 1 / -1; display: flex; flex-direction: column; gap: 6px"><label for="bw" style="font-weight: 600">Website <span style="font-weight: 400; color: #5E584F; font-size: 14px">(optional)</span></label><input id="bw" type="url" placeholder="https://example.com" style="height: 48px; padding: 0 14px; border-radius: 10px; border: 1px solid #CFC4B0; font: inherit"></div>
+<div style="grid-column: 1 / -1; display: flex; flex-direction: column; gap: 6px">
+<div style="display: flex; justify-content: space-between; gap: 12px"><label for="bd" style="font-weight: 600">Description <span style="color: #B3261E" aria-hidden="true">*</span></label><span style="font-size: 14px; color: #5E584F">{{descCount}}/500</span></div>
+<textarea id="bd" rows="4" required maxlength="500" :value="f.desc" @input="set.desc" placeholder="Brief description of the services, experience, and why you recommend them…" style="padding: 12px 14px; border-radius: 10px; border: 1px solid #CFC4B0; font: inherit; resize: vertical"></textarea>
+</div>
+<div style="grid-column: 1 / -1; display: flex; flex-direction: column; gap: 12px">
+<label style="display: flex; gap: 12px; align-items: flex-start"><input type="checkbox" :checked="f.h24" @change="toggle24" style="width: 22px; height: 22px; margin: 2px 0 0; flex-shrink: 0"><span><span style="font-weight: 600">Available 24/7 for emergencies</span><br><span style="font-size: 14px; color: #5E584F">Tick if they offer emergency call-outs outside normal hours</span></span></label>
+<label style="display: flex; gap: 12px; align-items: flex-start"><input type="checkbox" style="width: 22px; height: 22px; margin: 2px 0 0; flex-shrink: 0"><span><span style="font-weight: 600">EIC member business</span><br><span style="font-size: 14px; color: #5E584F">Gets an “EIC member” badge once confirmed</span></span></label>
+<label style="display: flex; gap: 12px; align-items: flex-start"><input type="checkbox" style="width: 22px; height: 22px; margin: 2px 0 0; flex-shrink: 0"><span>I'm the owner, or I have their permission to share these details publicly and with Padosi</span></label>
+</div>
+<div style="grid-column: 1 / -1; display: flex; flex-direction: column; gap: 6px"><label for="bs" style="font-weight: 600">Spam check: what is 9 + 9? <span style="color: #B3261E" aria-hidden="true">*</span></label><input id="bs" type="text" inputmode="numeric" required :value="f.spam" @input="set.spam" placeholder="Enter answer" style="width: 160px; height: 48px; padding: 0 14px; border-radius: 10px; border: 1px solid #CFC4B0; font: inherit"></div>
+<div style="grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 12px; align-items: center">
+<button type="button" @click="submit" :disabled="notReady" :style="`min-height: 52px; padding: 0 28px; border-radius: 999px; border: 0; background: ${btnBg}; color: #FFFFFF; font: inherit; font-weight: 600; cursor: ${btnCursor}`">Submit for review</button>
+<span style="font-size: 14px; color: #5E584F"><span style="color: #B3261E">*</span> Required</span>
+</div>
+</form>
+</span>
+</div>
+</div>
+</section>
+
+</div>
+</div>
+<script>
+var SRC = 'https://directory.ebbsfleet.info/listings?category=';
+var EGC = 'Ebbsfleet Garden City';
+// [name, category, area, description, source category code, available 24/7]
+var RAW = [
+  ['Chai Kadak', 'Food & Groceries', EGC, 'Vegetarian Indian street food: chaats, vada pav, wraps and chai, plus weekend orders and event catering.', 'FOOD_GROCERIES', false],
+  ['Lehsun – Nostalgic North Indian Catering', 'Event Catering', EGC, 'North Indian veg and non-veg catering and takeaways for parties and events across Dartford and Gravesend.', 'EVENT_CATERING', false],
+  ['Delahomebakes', 'Food & Groceries', EGC, 'Celebration cakes, cookies, brownies, traybakes, cake jars and cookie pies.', 'FOOD_GROCERIES', false],
+  ['Baramadee African Caribbean Grocery', 'Food & Groceries', EGC, 'African Caribbean groceries with delivery, walk-in or pickup.', 'FOOD_GROCERIES', false],
+  ['Trinket’s Treats Catering', 'Event Catering', 'Northfleet', 'Catering for weddings, parties, corporate lunches and wakes, with vegan, halal and gluten-free options.', 'EVENT_CATERING', false],
+  ['BB Private Chef', 'Food & Groceries', EGC, 'Private catering for dinner parties and corporate events.', 'FOOD_GROCERIES', false],
+  ['The Belgian Bakery', 'Food & Groceries', EGC, 'Event cakes, illusion cakes, afternoon tea boxes and party catering.', 'FOOD_GROCERIES', false],
+  ['Real Superstores', 'Food & Groceries', EGC, 'Fresh produce, Indian groceries, household staples, juices and homemade ice creams.', 'FOOD_GROCERIES', false],
+  ['Fresh Basket', 'Food & Groceries', EGC, 'Community grocery service with weekly fresh essentials, pickup or local delivery.', 'FOOD_GROCERIES', false],
+  ['Saarthii', 'Food & Groceries', EGC, 'Pure vegetarian food.', 'FOOD_GROCERIES', false],
+  ['Dhivya Food', 'Food & Groceries', EGC, '', 'FOOD_GROCERIES', false],
+  ['5ts_kitchen', 'Event Catering', 'Gravesend', 'African dishes and small chops for weddings, corporate events and private parties.', 'EVENT_CATERING', true],
+  ['Creative Dishes', 'Event Catering', EGC, 'Afro-Caribbean catering for parties and showers, specialising in Ghanaian dishes.', 'EVENT_CATERING', false],
+  ['Nextdoorbakes', 'Bakers', EGC, 'Homemade fresh cream cakes for birthdays and celebrations, ordered by message.', 'BAKERS', false],
+  ['Garden City Bakes', 'Bakers', EGC, 'Bespoke buttercream celebration cakes and cupcakes.', 'BAKERS', false],
+  ['Pandit Gauransh Vasishth Sharma', 'Hindu Priest / Pandit', 'Harbour Village', 'Pujas, havans, weddings, funeral rites and other Vedic ceremonies.', 'HINDU_PRIEST_PANDIT', true],
+  ['Pandit Pankaj Sharma', 'Hindu Priest / Pandit', 'Harbour Village', 'Vedic ceremonies for life’s milestones, with around 25 years’ experience.', 'HINDU_PRIEST_PANDIT', false],
+  ['Hindu Priest (Ramayan)', 'Hindu Priest / Pandit', 'Ebbsfleet area', 'Travels to any area; strong knowledge of the Ramayan.', 'HINDU_PRIEST_PANDIT', false],
+  ['Viral Gor Pandit Ji', 'Hindu Priest / Pandit', EGC, 'Priest at Gravesend Mandir.', 'HINDU_PRIEST_PANDIT', false],
+  ['Pandit Mayur Bhatt', 'Hindu Priest / Pandit', EGC, '', 'HINDU_PRIEST_PANDIT', false],
+  ['JaiRam', 'Hindu Priest / Pandit', EGC, '', 'HINDU_PRIEST_PANDIT', false],
+  ['Sudharshan Bhattar', 'Hindu Priest / Pandit', EGC, '', 'HINDU_PRIEST_PANDIT', false],
+  ['Nich&Rows Cleaning', 'House Help / Cleaner', 'Dartford', 'Weekly, fortnightly, monthly, deep and one-off cleans.', 'HOUSE_HELP_CLEANER', false],
+  ['Sally Shines', 'House Help / Cleaner', 'Swanscombe', 'Premium cleaning, steam cleans and new-baby packages.', 'HOUSE_HELP_CLEANER', false],
+  ['The Ebbsfleet Cleaning Co', 'House Help / Cleaner', EGC, 'Oven, Airbnb, end-of-tenancy and general house cleans.', 'HOUSE_HELP_CLEANER', false],
+  ['House of Cleans', 'House Help / Cleaner', 'Swanscombe', 'Domestic and commercial cleaning around Castle Hill.', 'HOUSE_HELP_CLEANER', false],
+  ['Maria', 'House Help / Cleaner', EGC, '', 'HOUSE_HELP_CLEANER', false],
+  ['Gliece', 'House Help / Cleaner', EGC, '', 'HOUSE_HELP_CLEANER', false],
+  ['Jaskaran Kaur', 'House Help / Cleaner', EGC, 'House cleaning and ladies’ beauty treatments.', 'HOUSE_HELP_CLEANER', false],
+  ['Sparkle Clean', 'House Help / Cleaner', EGC, 'Domestic, weekly and end-of-tenancy cleans; fully insured.', 'HOUSE_HELP_CLEANER', false],
+  ['Simply Spotless Cleaning', 'House Help / Cleaner', 'Northfleet', 'Domestic and commercial cleaning and ironing, six days a week.', 'HOUSE_HELP_CLEANER', false],
+  ['Sky Plumbing & Heating Ltd', 'Plumber', 'Swanscombe', 'Qualified plumber and Gas Safe registered engineer.', 'PLUMBER', false],
+  ['Blue Water Plumbing and Heating', 'Plumber', 'Greenhithe', 'Plumbing and heating installs and repairs, plus boiler servicing.', 'PLUMBER', false],
+  ['Bean Plumbing & Heating Services', 'Plumber', 'Bean', 'Domestic plumbing, Gas Safe boiler work and bathroom refits.', 'PLUMBER', false],
+  ['GetBry Domestic Plumbing Services', 'Plumber', 'Swanscombe', 'Affordable, quality domestic plumbing.', 'PLUMBER', false],
+  ['CSE Heating Ltd', 'Plumber', EGC, 'Heating specialist with 15+ years’ experience; Gas Safe registered.', 'PLUMBER', false],
+  ['J Samuel Plumbing', 'Plumber', EGC, '', 'PLUMBER', false],
+  ['Mike Waugh', 'Plumber', EGC, '', 'PLUMBER', false],
+  ['John’s Plumbing', 'Plumber', EGC, 'Plumbing for residential and commercial properties.', 'PLUMBER', false],
+  ['Dave’s Plumbing Services', 'Plumber', EGC, 'Boiler repairs, bathrooms and emergency leak fixes.', 'PLUMBER', true],
+  ['Gravesend Gas & Plumbing', 'Plumber', 'Gravesend', 'Plumbing and gas work, boiler installs and heating upgrades; Gas Safe.', 'PLUMBER', false],
+  ['Thames Boilers', 'Boiler Servicing', EGC, 'Gas Safe heating engineer for boiler repairs, servicing and power flushing.', 'BOILER_SERVICING', false],
+  ['Gascade Limited', 'Boiler Servicing', 'Ebbsfleet area', 'Boiler servicing, breakdowns and installs; all plumbing work undertaken.', 'BOILER_SERVICING', true],
+  ['Northern Kent HVAC', 'Boiler Servicing', 'Northfleet', 'Central heating installs, servicing, repairs and boiler breakdowns.', 'BOILER_SERVICING', true],
+  ['Electrical Intelligence Ltd', 'Electrician', EGC, '', 'ELECTRICIAN', false],
+  ['A-Demand Electrical Solutions Ltd', 'Electrician', 'Dartford', 'Installs, repairs, rewiring, EICRs and safety inspections.', 'ELECTRICIAN', true],
+  ['Sj Supplies', 'Electrician', EGC, 'Reliable, professional electrical work.', 'ELECTRICIAN', false],
+  ['Charlie Electrical', 'Electrician', EGC, 'Qualified local electrician with over 15 years’ experience.', 'ELECTRICIAN', true],
+  ['Istead Rise Electricals', 'Electrician', 'Istead Rise', 'Domestic and light commercial: fault finding, sockets, lighting, garden electrics.', 'ELECTRICIAN', false],
+  ['KLS Tax & Accounting Limited', 'Accountant / Bookkeeping', 'Harbour Village', 'Tax, accounting, bookkeeping and HMRC-regulated tax services.', 'ACCOUNTANT_BOOKKEEPING', false],
+  ['Ridge Financials', 'Accountant / Bookkeeping', EGC, 'Tax returns, bookkeeping, VAT and MTD for small businesses.', 'ACCOUNTANT_BOOKKEEPING', true],
+  ['Future Insight', 'Accountant / Bookkeeping', EGC, 'Accounting, tax planning, payroll and CFO support.', 'ACCOUNTANT_BOOKKEEPING', false],
+  ['Your Accountancy Needs Ltd', 'Accountant / Bookkeeping', EGC, 'Bookkeeping, VAT, tax returns and statutory accounts.', 'ACCOUNTANT_BOOKKEEPING', false],
+  ['Port Anchor Financial', 'Mortgage Advisers', EGC, 'Bespoke lending with a concierge-style service.', 'MORTGAGE_ADVISERS', false],
+  ['Westways Financial', 'Mortgage Advisers', EGC, 'Mortgages for first-time buyers, movers and remortgages.', 'OTHERS', false],
+  ['Anjalis Driving School', 'Driving Instructor', 'Gravesend', 'Female manual instructor with a good pass rate, covering north Kent.', 'DRIVING_INSTRUCTOR', true],
+  ['Steve Tranquil Driving School', 'Driving Instructor', EGC, '', 'DRIVING_INSTRUCTOR', false],
+  ['Lorianne Driving Instructor', 'Driving Instructor', EGC, 'Manual lessons.', 'DRIVING_INSTRUCTOR', false],
+  ['Kinetic Driving School', 'Driving Instructor', EGC, '', 'DRIVING_INSTRUCTOR', false],
+  ['Driving Inst Steve Hanley', 'Driving Instructor', EGC, '', 'DRIVING_INSTRUCTOR', false],
+  ['John A Class Driving', 'Driving Instructor', EGC, '', 'DRIVING_INSTRUCTOR', false],
+  ['Uncle Aj Driving School', 'Driving Instructor', EGC, '', 'DRIVING_INSTRUCTOR', false],
+  ['Profix Handyman Services', 'Handyman', 'Swanscombe', 'Carpenter with 33 years’ experience: kitchens, wardrobes, locks, tiling, decorating.', 'HANDYMAN', true],
+  ['Fix-It Frank', 'Handyman', 'Swanscombe', 'Flat-pack assembly, shelving, door repairs and fence panels.', 'HANDYMAN', false],
+  ['Steve Mahey', 'Handyman', EGC, 'Home security specialist.', 'HANDYMAN', false],
+  ['Steve Singh', 'Handyman', EGC, '', 'HANDYMAN', false],
+  ['Sam', 'Handyman', EGC, '', 'HANDYMAN', false],
+  ['Ben Eastmead', 'Handyman', EGC, '', 'HANDYMAN', false],
+  ['Swiftlock Locksmiths', 'Locksmith', EGC, 'Emergency lockouts, lock changes and uPVC repairs; DBS checked.', 'LOCKSMITH', true],
+  ['Shapes Bedroom and Kitchen', 'Carpenter / Wardrobe', EGC, '', 'CARPENTER_WARDROBE', false],
+  ['Oakwood Carpentry', 'Carpenter / Wardrobe', 'Stone', 'Bespoke fitted wardrobes, kitchens and storage.', 'CARPENTER_WARDROBE', false],
+  ['Spencers Decorating', 'Painter & Decorator', EGC, 'Local decorators trading for 23 years.', 'PAINTER_DECORATOR', false],
+  ['Premier Painters Kent', 'Painter & Decorator', 'Dartford', 'Indoor and outdoor painting; free quotes and colour advice.', 'PAINTER_DECORATOR', false],
+  ['ABC Tiling', 'Tiling', 'Greenhithe', 'Wall and floor tiling, bathroom refurbishments and underfloor heating.', 'TILING', false],
+  ['Tile Right', 'Tiling', 'Bluewater', 'Bathroom and kitchen tiling, wet rooms and underfloor heating.', 'TILING', false],
+  ['Kent Roofing Solutions', 'Roofing & Gutters', 'Longfield', 'Roof repairs, replacements, flat roofs and guttering; free inspections.', 'ROOFING_GUTTERS', true],
+  ['Ebbsfleet Blinds & Curtains', 'Blinds', EGC, 'Family-run blinds, shutters and curtains; free home visits and repairs.', 'BLINDS', false],
+  ['James Ebbsfleet Blinds', 'Blinds', EGC, '', 'BLINDS', false],
+  ['Sally Shined', 'Carpet Cleaner', EGC, 'Carpet, upholstery, artificial grass and patio cleaning.', 'CARPET_CLEANER', true],
+  ['Reece Carpet Cleaner (Carpetbird Ltd)', 'Carpet Cleaner', EGC, '', 'CARPET_CLEANER', false],
+  ['HD Window Cleaning', 'Window Cleaner', EGC, 'Reliable, affordable window cleaning.', 'WINDOW_CLEANER', false],
+  ['Billy – Window Cleaner', 'Window Cleaner', EGC, '', 'WINDOW_CLEANER', false],
+  ['Window Tinting', 'Others', EGC, 'Window tinting for houses.', 'OTHERS', false],
+  ['Bug Busters Kent', 'Pest Control', 'Greenhithe', 'BPCA-certified: wasps, rats, mice and bed bugs; emergency call-outs.', 'PEST_CONTROL', true],
+  ['Fleet Fencing & Landscapes', 'Gardener', 'Ebbsfleet area', 'Fencing, hard landscaping, pathways and sleeper beds.', 'GARDENER', false],
+  ['Green Thumb Landscapes', 'Gardener', 'Gravesend', 'Garden makeovers, maintenance, lawn care, fencing and paving.', 'GARDENER', false],
+  ['Dean Clancy', 'Gardener', EGC, '', 'GARDENER', false],
+  ['Danny Coinford', 'Gardener', EGC, '', 'GARDENER', false],
+  ['Alan Gardener', 'Gardener', EGC, '', 'GARDENER', false],
+  ['Autosmart Refinish – Matt', 'Car Services', EGC, 'Car dent repair and refinishing.', 'CAR_SERVICES', false],
+  ['Mark Farrin', 'Car Services', EGC, 'MOT testing and car repairs.', 'CAR_SERVICES', false],
+  ['Indy Tihar', 'Car Services', EGC, '', 'CAR_SERVICES', false],
+  ['Jess Car Valet', 'Car Services', EGC, '', 'CAR_SERVICES', false],
+  ['Lister Drive Taxi', 'Taxi Service', EGC, '', 'TAXI_SERVICE', false],
+  ['Sukhwinder Cabs', 'Taxi Service', 'Swanscombe', '', 'TAXI_SERVICE', false],
+  ['Thas Taxi', 'Taxi Service', EGC, '', 'TAXI_SERVICE', false],
+  ['Joe', 'Taxi Service', EGC, '', 'TAXI_SERVICE', false],
+  ['Town and Castle Lettings & Property Management', 'Estate Agent', EGC, 'Lettings, management and sales; 40+ years’ combined experience.', 'ESTATE_AGENT', false],
+  ['Personal Estate Agent Ebbsfleet', 'Estate Agent', EGC, 'One-to-one estate agent with 20+ years’ experience.', 'ESTATE_AGENT', false],
+  ['Blue & Bloom Beauty', 'Hair & Beauty', EGC, 'Facials, threading and waxing.', 'HAIR_BEAUTY', false],
+  ['Faith Nail’d It!', 'Hair & Beauty', EGC, 'BIAB, acrylics, hard gel, gel polish and nail art.', 'HAIR_BEAUTY', false],
+  ['Ebbsfleet Aesthetics', 'Hair & Beauty', 'Northfleet', 'Medical aesthetics led by a registered nurse prescriber.', 'HAIR_BEAUTY', false],
+  ['Cura Physiotherapy', 'Physiotherapy / Massage', 'Gravesend', 'Musculoskeletal physiotherapy, including steroid injection therapy.', 'PHYSIOTHERAPY_MASSAGE', false],
+  ['Spa Century', 'Physiotherapy / Massage', EGC, 'Holistic massage and pain management; studio or home visits.', 'PHYSIOTHERAPY_MASSAGE', false],
+  ['Jo’s Babysitting and Nanny Services', 'Babysitting / Nanny', EGC, 'Experienced nanny offering ad hoc childcare.', 'BABYSITTING_NANNY', false],
+  ['Musical Bumps North West Kent', 'Music Teacher', EGC, 'Music classes for babies, toddlers and preschoolers.', 'MUSIC_TEACHER', false],
+  ['Mayadori', 'Others', 'Northfleet', 'Art, craft and upcycling workshops for children, families and adults.', 'OTHERS', false],
+  ['The Puppy Pad', 'Pet Sitting', EGC, 'Dog boarding in a home-like setting.', 'PET_SITTING', false],
+  ['Tan’s Cat Services', 'Pet Sitting', EGC, 'Cat sitting in and around Ebbsfleet.', 'PET_SITTING', false],
+  ['Kellys Balloons & Backdrops', 'Event Planning & Decor', EGC, 'Balloon arches, backdrops, delivery and setup for parties and weddings.', 'EVENT_PLANNING_DECOR', false],
+  ['Rogue Ginger Photography', 'Photography / Videography', EGC, 'Headshots, brand content, drone, product and event photography.', 'PHOTOGRAPHY_VIDEOGRAPHY', false],
+  ['Palmier Social', 'Photography / Videography', 'Northfleet', 'Photobooths, guestbooks and Polaroid stations for events.', 'PHOTOGRAPHY_VIDEOGRAPHY', true],
+  ['Tony Kirk Photography', 'Photography / Videography', EGC, 'Portraits and headshots, in studio or outdoors.', 'PHOTOGRAPHY_VIDEOGRAPHY', false],
+  ['Code My AI', 'AI & Website Design', EGC, 'AI automation, web development, logo design and AI-driven SEO.', 'AI_INTEGRATION_AUTOMATION', false],
+  ['ITWala', 'Website Design', EGC, 'IT strategy and implementation for growing businesses.', 'WEBSITE_DESIGN', false],
+  ['Nexado Digital', 'Marketing Agency', 'Harbour Village', 'SEO and advertising services.', 'MARKETING_AGENCY', false],
+  ['LCB Consulting Limited', 'Others', EGC, 'Business development, strategy and project delivery.', 'OTHERS', false],
+  ['Transquisite Consulting', 'Others', 'Swanscombe', 'HR consultancy and business advisory.', 'OTHERS', false],
+  ['Vastu Consultant', 'Others', EGC, '', 'OTHERS', false]
+];
+var TINTS = [['#FCE7C8', '#8A4100'], ['#E1F1E2', '#06622A'], ['#DCE6F7', '#1F3F7A'], ['#F6DCE8', '#6B1D44'], ['#EADFF3', '#5B2C83'], ['#FDE3D2', '#8F3A12'], ['#F5EFE3', '#5A2E00']];
+function tintFor(s) { var h = 0; for (var i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) % 997; return TINTS[h % TINTS.length]; }
+function initials(name) { var w = name.replace(/[^A-Za-z0-9 ]/g, ' ').split(' ').filter(Boolean); return ((w[0] || '?')[0] + (w[1] ? w[1][0] : '')).toUpperCase(); }
+var BIZ = RAW.map(function (r) {
+  var t = tintFor(r[1]);
+  return { name: r[0], cat: r[1], area: r[2], desc: r[3], descText: r[3] || 'Listed in the Ebbsfleet community directory. Tap through for contact details.', href: SRC + r[4], h24: r[5], imported: true, isNew: false, phone: '', tint: t[0], ink: t[1], initials: initials(r[0]) };
+});
+var TRADES = ['Accountant / Bookkeeping', 'AI & IT services', 'Babysitting / Nanny', 'Bakers', 'Blinds & curtains', 'Boiler servicing', 'Builder', 'Car services', 'Carpenter / Wardrobes', 'Carpet cleaner', 'Catering service', 'Driving instructor', 'Electrician', 'Estate agent', 'Event catering', 'Event planning & decor', 'Food & groceries', 'Gardener', 'Hair & beauty', 'Handyman', 'Hindu priest / Pandit', 'House help / Cleaner', 'Locksmith', 'Mehndi artist', 'Mortgage adviser', 'Music teacher', 'Painter & decorator', 'Pest control', 'Pet sitting', 'Photography / Videography', 'Physiotherapy / Massage', 'Plumber', 'Restaurant', 'Roofing & gutters', 'Taxi service', 'Tiffin / Home-cooked meals', 'Tiling', 'Tutor', 'Website design', 'Window cleaner', 'Other'];
+var AREAS = ['Ebbsfleet Garden City', 'Castle Hill', 'Ebbsfleet Green', 'Springhead', 'Harbour Village', 'Swanscombe', 'Northfleet', 'Greenhithe', 'Gravesend', 'Dartford', 'Bean', 'London', 'All UK', 'Other'];
+var PAGE = 12;
+var EMPTY = { name: '', contact: '', cat: '', area: '', phone: '', desc: '', spam: '', h24: false };
+
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { query: '', cat: 'All', area: 'All', only247: false, page: 1, submitted: false, added: [], lastName: '', f: Object.assign({}, EMPTY) };
+  }
+  renderVals() {
+    var self = this, st = this.state, f = st.f;
+    var all = st.added.concat(BIZ);
+    var q = st.query.trim().toLowerCase().replace(/s$/, '');
+    var filtered = all.filter(function (b) {
+      if (st.cat !== 'All' && b.cat !== st.cat) return false;
+      if (st.area !== 'All' && b.area !== st.area) return false;
+      if (st.only247 && !b.h24) return false;
+      return !q || (b.name + ' ' + b.cat + ' ' + b.area + ' ' + b.desc).toLowerCase().indexOf(q) !== -1;
+    });
+    var cats = {}, areas = {};
+    all.forEach(function (b) { cats[b.cat] = (cats[b.cat] || 0) + 1; areas[b.area] = true; });
+    var set = {};
+    ['name', 'contact', 'cat', 'area', 'phone', 'desc', 'spam'].forEach(function (k) {
+      set[k] = function (e) { var nf = Object.assign({}, self.state.f); nf[k] = e.target.value; self.setState({ f: nf }); };
+    });
+    var ready = !!(f.name.trim() && f.contact.trim() && f.cat && f.area && f.phone.trim() && f.desc.trim() && f.spam.trim() === '18');
+    var pageCount = Math.max(1, Math.ceil(filtered.length / PAGE));
+    var cur = Math.min(st.page, pageCount);
+    var start = (cur - 1) * PAGE;
+    var shown = filtered.slice(start, start + PAGE);
+    var go = function (n) {
+      self.setState({ page: n });
+      try { var el = document.getElementById('results'); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (e) {}
+    };
+    var pages = [];
+    for (var pi = 1; pi <= pageCount; pi++) {
+      (function (n) {
+        var on = n === cur;
+        pages.push({ n: n, current: on ? 'page' : 'false', bg: on ? '#06622A' : '#FFFFFF', ink: on ? '#FFFFFF' : '#1D1B18', border: on ? '#06622A' : '#CFC4B0', go: function () { go(n); } });
+      })(pi);
+    }
+    return {
+      totalLabel: all.length + ' local businesses',
+      query: st.query, cat: st.cat, area: st.area, only247: st.only247,
+      onQuery: function (e) { self.setState({ query: e.target.value, page: 1 }); },
+      onCat: function (e) { self.setState({ cat: e.target.value, page: 1 }); },
+      onArea: function (e) { self.setState({ area: e.target.value, page: 1 }); },
+      on247: function (e) { self.setState({ only247: e.target.checked, page: 1 }); },
+      catOptions: Object.keys(cats).sort().map(function (c) { return { value: c, label: c + ' (' + cats[c] + ')' }; }),
+      areaOptions: Object.keys(areas).sort(),
+      results: shown,
+      multiPage: pageCount > 1,
+      pages: pages,
+      pageLabel: 'Page ' + cur + ' of ' + pageCount,
+      atFirst: cur === 1,
+      atLast: cur === pageCount,
+      prevBg: cur === 1 ? '#F5EFE3' : '#FFFFFF',
+      nextBg: cur === pageCount ? '#F5EFE3' : '#FFFFFF',
+      prevPage: function () { if (cur > 1) go(cur - 1); },
+      nextPage: function () { if (cur < pageCount) go(cur + 1); },
+      noResults: filtered.length === 0,
+      countLabel: filtered.length === 0 ? 'No businesses found' : 'Showing ' + (start + 1) + '–' + (start + shown.length) + ' of ' + filtered.length + ' businesses',
+      submitted: st.submitted, showForm: !st.submitted, lastName: st.lastName,
+      f: f, set: set,
+      toggle24: function (e) { var nf = Object.assign({}, self.state.f); nf.h24 = e.target.checked; self.setState({ f: nf }); },
+      descCount: f.desc.length, trades: TRADES, areas: AREAS,
+      notReady: !ready, btnBg: ready ? '#06622A' : '#8C877E', btnCursor: ready ? 'pointer' : 'not-allowed',
+      submit: function () {
+        if (!ready) return;
+        var nb = { name: f.name.trim(), cat: f.cat, area: f.area, desc: f.desc.trim(), descText: f.desc.trim(), phone: f.phone.trim(), h24: f.h24, imported: false, isNew: true, href: '#', tint: '#FDE3D2', ink: '#8F3A12', initials: initials(f.name.trim()) };
+        self.setState({ submitted: true, added: [nb].concat(self.state.added), lastName: nb.name, query: '', cat: 'All', area: 'All', only247: false, page: 1 });
+      },
+      reset: function () { self.setState({ submitted: false, f: Object.assign({}, EMPTY) }); }
+    };
+  }
+}
+mountPage(Component);
+</script>
+</body>
+</html>
